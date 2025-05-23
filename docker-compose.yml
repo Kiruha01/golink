@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+    instascrapper:
+#        image: kiruha01/insta:1.1.0
+        build: .
+        ports:
+            - "8080:8080"
+        depends_on:
+          - postgre
+#        restart: always
+        environment:
+          - DB_PORT=5432
+          - DB_USER=postgres
+          - DB_PASSWORD=postgres
+          - DB_NAME=postgres
+          - DB_HOST=postgre
+
+    postgre:
+      image: postgres:13.2-alpine
+      environment:
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_USER: "postgres"
+        POSTGRES_DB: "postgres"
