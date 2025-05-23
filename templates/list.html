@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .copy-btn {
+            padding: 6px 12px;
+            background-color: #28a745;
+            font-size: 14px;
+        }
+        .copy-btn:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Shortener - List</h1>
+    <form class="search-form" action="/list" method="GET">
+        <input type="text" name="search" placeholder="Search by original URL" value="{{.Search}}">
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Original URL</th>
+                <th>Short URL</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .URLs}}
+            <tr>
+                <td><a href="{{.Original}}" target="_blank">{{.Original}}</a></td>
+                <td><a href="/{{.ShortCode}}" target="_blank">/{{.ShortCode}}</a></td>
+                <td>{{.CreatedAt.Format "2006-01-02 15:04:05"}}</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('{{$.BaseURL}}/{{.ShortCode}}')">Copy</button></td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="4">No URLs found</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    <a href="/" class="back-link">Back to Home</a>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy link: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>

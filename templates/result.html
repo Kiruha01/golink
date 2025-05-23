@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        a#short-url {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a#short-url:hover {
+            text-decoration: underline;
+        }
+        button.copy-btn {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button.copy-btn:hover {
+            background-color: #218838;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Shortener - Result</h1>
+    {{if .Success}}
+        <div class="result success">
+            <p>Short URL created: <a id="short-url" href="{{.ShortURL}}" target="_blank">{{.ShortURL}}</a></p>
+            <button class="copy-btn" onclick="copyToClipboard('{{.ShortURL}}')">Copy to Clipboard</button>
+        </div>
+    {{else}}
+        <div class="result error">
+            <p>Error: {{.Error}}</p>
+        </div>
+    {{end}}
+    <a href="/" class="back-link">Back to Home</a>
+    <a href="/list" class="back-link">View All URLs</a>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy link: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
